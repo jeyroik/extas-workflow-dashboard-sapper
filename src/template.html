@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<meta name="theme-color" content="#333333">
+
+	%sapper.base%
+
+	<link rel="stylesheet" href="global.css">
+
+	<link rel="manifest" href="manifest.json" crossorigin="use-credentials">
+	<link rel="icon" type="image/png" href="favicon.png">
+	<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">-->
+
+	<!-- Sapper creates a <script> tag containing `src/client.js`
+	     and anything else it needs to hydrate the app and
+	     initialise the router -->
+	%sapper.scripts%
+	<script type="application/javascript">
+		String.prototype.ucfirst = function (){
+			return this[0].toUpperCase() + this.substring(1);
+		};
+		Array.prototype.filterByField = function (source, query, field, sub) {
+			let items = source;
+
+			if ((query === '') || (typeof query === 'undefined')) {
+				items = source.filter(item => true)
+			} else if (sub === null) {
+				items = source.filter(item => item[field].toLowerCase().indexOf(query.toLowerCase()) != -1)
+			} else {
+				items = source.filter(item => item[field][sub].toLowerCase().indexOf(query.toLowerCase()) != -1)
+			}
+
+			return items
+		}
+	</script>
+
+	%sapper.styles%
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<style>
+		td{
+			padding: 5px;
+		}
+		.silent-input-text{
+			border: 1px solid transparent;
+			background: transparent;
+			width: 98%;
+			padding: 5px;
+			text-overflow: ellipsis;
+		}
+		.silent-input-text:hover{
+			border: 1px solid grey;
+		}
+
+		#toast-container{
+			display:block;
+			position:fixed;
+			z-index:10000
+		}
+		@media only screen and (max-width: 600px){
+			#toast-container{
+				min-width:100%;
+				bottom:0%
+			}
+		}
+		@media only screen and (min-width: 601px) and (max-width: 992px){
+			#toast-container{
+				left:5%;
+				bottom:7%;
+				max-width:90%
+			}
+		}
+		@media only screen and (min-width: 993px){
+			#toast-container{
+				top:10%;
+				right:7%;
+				max-width:86%
+			}
+		}
+		.toast{
+			border-radius:2px;
+			top:35px;
+			width:auto;
+			margin-top:10px;
+			position:relative;
+			max-width:100%;
+			height:auto;
+			min-height:48px;
+			line-height:1.5em;
+			background-color:#3288e6;
+			padding:10px 25px;
+			font-size:1.1rem;
+			font-weight:300;
+			color:#fff;
+			display:-webkit-box;
+			display:-webkit-flex;
+			display:-ms-flexbox;
+			display:flex;
+			-webkit-box-align:center;
+			-webkit-align-items:center;
+			-ms-flex-align:center;
+			align-items:center;
+			-webkit-box-pack:justify;
+			-webkit-justify-content:space-between;
+			-ms-flex-pack:justify;
+			justify-content:space-between;
+			cursor:default
+		}
+		.toast .toast-action{
+			color:#eeff41;
+			font-weight:500;
+			margin-right:-25px;
+			margin-left:3rem
+		}
+		.toast.rounded{
+			border-radius:24px
+		}
+		@media only screen and (max-width: 600px){
+			.toast{
+				width:100%;
+				border-radius:0
+			}
+		}
+	</style>
+	<!-- This contains the contents of the <svelte:head> component, if
+	     the current page has one -->
+	%sapper.head%
+
+</head>
+<body>
+	<!-- The application will be rendered inside this element,
+	     because `src/client.js` references it -->
+	<div id="sapper">%sapper.html%</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var elems = document.querySelectorAll('.tooltipped');
+			var instances = M.Tooltip.init(elems, {});
+		});
+	</script>
+</body>
+</html>
