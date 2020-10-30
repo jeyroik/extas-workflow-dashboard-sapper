@@ -26,7 +26,6 @@
     <tr>
         <td>Название</td>
         <td>Описание</td>
-        <td>Действие</td>
     </tr>
     </thead>
     <tbody>
@@ -34,9 +33,6 @@
         <tr>
             <td>{item.title}</td>
             <td>{item.description}</td>
-            <td>
-                <button title="Создать переход">Создать</button>
-            </td>
         </tr>
     {/each}
     </tbody>

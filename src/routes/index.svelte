@@ -38,4 +38,4 @@
 
 <h2>Добро пожаловать в дашборд по управлению Workflow</h2>
 
-<p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>
+

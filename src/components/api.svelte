@@ -1,5 +1,6 @@
 <script context="module">
     export async function jsonRpc(data, success) {
+        console.log('endpoint: ' + `process.JSON_RPC__ENDPOINT`)
         let response = await fetch(`process.JSON_RPC__ENDPOINT`, {
             method: 'POST',
             body: JSON.stringify(data)
@@ -17,7 +18,25 @@
         return response;
     }
 
-    export async function save(entity, entityName, entityTitle) {
+    export async function create(entity, entityPath, entityTitle, after) {
+        jsonRpc(
+            {
+                method: "workflow."+entityPath+".create",
+                params: {
+                    data: entity
+                }
+            },
+            () => {
+                M.toast({
+                    html: entityTitle + ' "' + entity.title + '" создан[а]',
+                    classes: 'red'
+                });
+                after(entity)
+            }
+        );
+    }
+
+    export async function save(entity, entityName, entityTitle, afterSave) {
         jsonRpc(
             {
                 method: 'workflow.'+entityName+'.update',
@@ -34,6 +53,29 @@
                     html: entityTitle + ' "' + result.pop().title + '" сохранен[а]',
                     classes: 'green'
                 });
+                if (typeof afterSave != 'undefined') {
+                    afterSave(entity)
+                }
+            }
+        );
+    }
+
+    export async function saveEntity(entity, afterSave) {
+        jsonRpc(
+            {
+                method: 'workflow.transition.dispatcher.update',
+                params: {
+                    data: entity
+                }
+            },
+            function (result) {
+                M.toast({
+                    html: 'Обработчик "' + result.pop().title + '" сохранен[а]',
+                    classes: 'green'
+                });
+                if (typeof afterSave != 'undefined') {
+                    afterSave(entity)
+                }
             }
         );
     }
@@ -60,7 +102,7 @@
         );
     }
 
-    export function deleteEntity(item, title, desc, check, checkMsg){
+    export function deleteEntity(item, title, desc, check, checkMsg, afterDelete){
         if (check(item)) {
             M.toast({
                 html: checkMsg,
@@ -68,14 +110,14 @@
             });
         } else {
             del(item, title, desc)
-            entities = entities.filter(current => current.name != item.name)
+            afterDelete(item)
         }
     }
 
     export function getQueryFilter(field, value)
     {
         if (field) {
-            return '{"' + field + '":{"$in":"' + value + '"}}'
+            return '{"' + field + '":{"$in":["' + value + '"]}}'
         }
 
         return '{}';
