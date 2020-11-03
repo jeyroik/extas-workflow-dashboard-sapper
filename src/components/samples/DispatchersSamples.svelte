@@ -40,16 +40,12 @@
                                         </svg>
                                     </span>
                                 </label>
-                                {#if typeof param['template@'+param.template] !== 'undefined'}
-                                    {#if typeof param['template@'+param.template]['allowed'] !== 'undefined'}
-                                        <select bind:value={samples[sample.name].parameters[name].value} class="form-control" >
-                                            {#each param['template@'+param.template]['allowed'] as allowed}
-                                                <option value="{allowed.name}" title="{allowed.description}">{allowed.title}</option>
-                                            {/each}
-                                        </select>
-                                    {:else}
-                                        <input bind:value={samples[sample.name].parameters[name].value} id="{param.name}" class="form-control"/>
-                                    {/if}
+                                {#if (typeof param['allow'] !== 'undefined') && (param['allow'].length > 0)}
+                                    <select bind:value={samples[sample.name].parameters[name].value} class="form-control" >
+                                        {#each param['allow'] as allowed}
+                                            <option value="{allowed.name}" title="{allowed.description}">{allowed.title}</option>
+                                        {/each}
+                                    </select>
                                 {:else if param.name === 'field_name'}
                                     <select bind:value={samples[sample.name].parameters[name].value} class="form-control">
                                         {#each entity.params as field}

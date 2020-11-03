@@ -12,11 +12,13 @@ RUN npm install canvas && npm install
 COPY ./src ./src
 COPY ./static ./static
 
+ARG endpoint
+
+ENV HOST=0.0.0.0
+ENV JSON_RPC__ENDPOINT=${endpoint}
+
 RUN npm run-script build
 
 EXPOSE 5000
-
-ENV HOST=0.0.0.0
-ENV JSON_RPC__ENDPOINT=0.0.0.0:8090
 
 CMD [ "npm", "start" ]

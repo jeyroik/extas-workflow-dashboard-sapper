@@ -41,6 +41,16 @@
         schema_name: ''
     };
 
+    function fillInEntityWithQuery(query, entity) {
+        for (const [key, value] of Object.entries(entity)) {
+            if (typeof query[key] != 'undefined') {
+                entity[key]=query[key]
+            }
+        }
+    }
+
+    fillInEntityWithQuery(query, state)
+
     async function create() {
         jsonRpc(
             {
@@ -86,6 +96,7 @@
             <label for="sample_name">Шаблон</label>
             <select bind:value={state.sample_name} id="sample_name" class="form-control form-control-sm">
                     <option value="">Выберите шаблон</option>
+                    <option value="none">Без шаблона</option>
                 {#each samplesForPrint as item}
                     <option value="{item.name}" title="{item.description}">{item.title}</option>
                 {/each}

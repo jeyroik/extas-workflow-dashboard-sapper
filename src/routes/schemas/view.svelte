@@ -289,7 +289,7 @@ console.log(schema)
 </div>
 <div class="row">
     <div class="col-md-12">
-        <button class="btn btn-primary" on:click={goto('/states/new?back_to_url=/schemas/view?name='+schema.name)}>Добавить состояние</button>
+        <button class="btn btn-primary" on:click={goto('/states/new?schema_name='+schema.name+'&sample_name=none&back_to_url=/schemas/view?name='+schema.name)}>Добавить состояние</button>
     </div>
 </div>
 <canvas id="canvas" height="850"></canvas>
@@ -355,7 +355,7 @@ console.log(schema)
 <style>
     .tlist{
         position: absolute;
-        right: 100px;
+        right: -75px;
         top: 20%;
         width: 300px;
     }

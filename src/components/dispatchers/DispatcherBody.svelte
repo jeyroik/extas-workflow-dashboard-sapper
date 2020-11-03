@@ -12,6 +12,7 @@
     let valueSelectItems = []
 
     function setEntityParamValue(e){
+        console.log(entity)
         let pName = e.target.value
         if (typeof entity.parameters[pName].allow !== 'undefined') {
             valueSelectItems = []

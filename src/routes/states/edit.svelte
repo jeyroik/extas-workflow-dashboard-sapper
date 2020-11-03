@@ -58,7 +58,7 @@
     <title>Состояния - Новое</title>
 </svelte:head>
 
-<h2>Создание состояния</h2>
+<h2>Редактирование состояния</h2>
 
 <div class="row">
     <div class="col-md-12">
